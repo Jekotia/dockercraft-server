@@ -1,0 +1,69 @@
+version: "3"
+
+services:
+  minecraft:
+    container_name: minecraft
+    image: docker.io/jekotia/dockercraft-server:latest
+    environment:
+     #-> WHETHER OR NOT YOU ARE MANUALLY MANAGING YOUR minecraft_server.jar FILE.
+     #-> PERMITTED VALUES: true, false.
+     - "MANUAL_JAR=false"
+
+     #-> THE NAME OF YOUR MANUALLY MANAGED SERVER JAR FILE.
+     #-> PERMITTED VALUES: any valid file name.
+     - "JARFILE=minecraft_server.1.12.jar"
+
+     #-> THE SERVER SOFTWARE TO USE.
+     #-> APPLIES WHEN:
+     #-> - MANUAL_JAR=false
+     #-> PERMITTED VALUES:
+     #-> - vanilla
+     #-> - paper
+     - "SERVER_TYPE=vanilla"
+
+     #-> THE TARGETTED MINECRAFT VERSION.
+     #-> APPLIES WHEN:
+     #-> - MANUAL_JAR=false
+     #->  AND EITHER
+     #-> - SERVER_TYPE=vanilla
+     #->  OR
+     #-> - SERVER_TYPE=paper.
+     - "MC_VERSION=1.12.2"
+
+     #-> THE BUILD OF SERVER SOFTWARE TO USE.
+     #-> APPLIES WHEN:
+     #->  - MANUAL_JAR=false
+     #->   AND
+     #->  - SERVER_TYPE=paper
+     #-> PERMITTED VALUES:
+     #-> - latest
+     #-> - any valid Paper build number
+     - "BUILD_NUMBER=latest"
+
+     #-> WHETHER OR NOT TO AUTOMATICALLY CHECK FOR NEWER BUILDS, AND AUTOMATICALLY UPDATE TO THEM IF FOUND.
+     #-> APPLIES WHEN:
+     #-> - MANUAL_JAR=false
+     #->  AND
+     #-> - SERVER_TYPE=paper
+     #-> PERMITTED VALUES:
+     #-> - true
+     #-> - false
+     - "AUTO_UPDATE=false"
+
+    #-> THE AMOUNT OF MEMORY TO ALLOCATE TO THE SERVER. USE THE LETTER M AS THE SUFFIX IF THE AMOUNT IS IN MB, AND A G IF IT IS IN GB.
+    #-> APPLIES WHEN:
+    #-> - JVM_ARGUMENTS is not set
+    #-> PERMITTED VALUES:
+    #-> - NUMBERS FOLLOWED BY EITHER M (FOR MEGABYES) OR G (FOR GIGABYTES). e.g. 512M. e.g. 2G.
+     - "SERVER_MEMORY=512M"
+
+    #-> ARGUMENTS TO USE WHEN STARTING THE JAVA PROCESS. INCLUDE YOUR OWN MEMORY DECLARATIONS.
+    #-> PERMITTED VALUES: THESE ARE NOT MANAGED BY THIS PROJECT. YOU WILL NEED TO DO YOUR OWN RESEARCH ON VALID JAVA ARGUMENTS IF YOU WISH TO DEVIATE FROM THE DEFAULTS.
+    # - "JVM_ARGUMENTS="
+    volumes:
+     - "./testfiles/:/minecraft/data/"
+#    - "./testfiles/minecraft_server.1.12.jar:/minecraft/minecraft_server.jar"
+#    - "./testfiles/server.properties:/minecraft/server.properties"
+#    - "./testfiles/ops.txt:/minecraft/ops.txt"
+    ports:
+    - "25565"
